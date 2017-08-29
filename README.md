@@ -1,2 +1,2 @@
 # react-component-gallery
-react component gallery
+react component starter
