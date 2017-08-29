@@ -1,8 +1,9 @@
 import React, {PropTypes, Component} from 'react'
 import ReactDOM from 'react-dom'
 import GalleryItem from './components/GalleryItem'
+import Gallery from './components/Gallery'
 import './asset/app.sass'
-import {Motion,spring} from 'react-motion'
+import {Motion, spring} from 'react-motion'
 
 class GalleryItemDemo extends Component {
 	render() {
@@ -23,14 +24,28 @@ class GalleryItemDemo extends Component {
 	}
 }
 
-class MotionDemo extends Component{
-	constructor(props){
+class GalleryDemo extends Component {
+	render() {
+		return (
+			<Gallery
+				items={[
+					{original:require('./asset/2.jpg')},
+					{original:require('./asset/3.jpg')},
+					{original:require('./asset/4.jpg')}
+				]}/>
+		);
+	}
+}
+
+class MotionDemo extends Component {
+	constructor(props) {
 		super(props);
-		this.state={
-			left:0
+		this.state = {
+			left: 0
 		};
 	}
-	render(){
+
+	render() {
 		return (
 			<Motion defaultStyle={{left: 0}} style={{left: spring(this.state.left)}}>
 				{({left}) => {
@@ -66,9 +81,10 @@ class Example extends Component {
 	render() {
 		return (
 			<div>
-			<GalleryItemDemo/>
-				<h5>motion demo</h5>
-				<MotionDemo/>
+				{/*<h5>Gallery Item Demo</h5>*/}
+				{/*<GalleryItemDemo/>*/}
+				<h5>Gallery Demo</h5>
+				<GalleryDemo/>
 			</div>
 		);
 	}

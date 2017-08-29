@@ -1,20 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import ImageGallery from 'react-image-gallery'
+import GalleryItem from './GalleryItem'
 import "react-image-gallery/styles/css/image-gallery.css"
-
-class GalleryItem extends PureComponent{
-	static propTypes={
-		item:PropTypes.object.isRequired
-	};
-	render(){
-		return (
-			<div>
-				<img src={this.props.item.original}/>
-			</div>
-		);
-	}
-}
 
 /**
  * Gallery - 画廊,支持缩放,支持marker
