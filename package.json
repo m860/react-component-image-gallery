@@ -1,26 +1,26 @@
 {
-  "name": "react-component-gallery",
+  "name": "react-component-image-gallery",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "jest --verbose",
     "dev": "export NODE_ENV=development && webpack-dev-server --host 0.0.0.0 --inline --progress --colors --port 3000 --content-base src/",
-    "build": "./build",
+    "build": "./build.sh",
     "publish": "npm publish --access public",
     "win-dev": "set NODE_ENV=development&&webpack-dev-server --host 0.0.0.0 --inline --progress --colors --port 3000 --content-base src/",
     "win-build": "set NODE_ENV=production&&webpack --progress --profile --colors"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/m860/react-component-gallery.git"
+    "url": "git+https://github.com/m860/react-component-image-gallery.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/m860/react-component-gallery/issues"
+    "url": "https://github.com/m860/react-component-image-gallery/issues"
   },
-  "homepage": "https://github.com/m860/react-component-gallery#readme",
+  "homepage": "https://github.com/m860/react-component-image-gallery#readme",
   "devDependencies": {
     "autoprefixer": "^6.3.6",
     "babel-cli": "^6.22.2",
@@ -57,7 +57,6 @@
     "prop-types": ">=15.5.10",
     "react": ">=15.6.1",
     "react-dom": ">=15.6.1",
-    "react-transition-group": ">=2.2.0",
     "react-motion": ">=0.5.0",
     "react-image-gallery": ">=0.8.3"
   }

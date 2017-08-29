@@ -1,11 +1,13 @@
-# react-component-gallery
+# react-component-image-gallery
 
 <!-- badge -->
 <!-- endbadge -->
 
-react component gallery. 基于[react-image-gallery](https://github.com/xiaolin/react-image-gallery)做了一些扩展,添加了如下特性:
+基于[react-image-gallery](https://github.com/xiaolin/react-image-gallery)做了一些扩展,添加了如下特性:
 - 缩放/移动
 - 支持marker
+
+[Examples & API Documents](./API.md)
 
 ## Screen Shot
 
@@ -14,11 +16,11 @@ react component gallery. 基于[react-image-gallery](https://github.com/xiaolin/
 ## Install
 
 ```shell
-$ npm i react-component-gallery --save
+$ npm i react-component-image-gallery --save
 ```
 
 ## Import
 
 ```javascript
-import Gallery from 'react-component-gallery'
+import Gallery from 'react-component-image-gallery'
 ```
