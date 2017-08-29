@@ -29,7 +29,20 @@ class GalleryDemo extends Component {
 		return (
 			<Gallery
 				items={[
-					{original:require('./asset/2.jpg')},
+					{
+						original:require('./asset/2.jpg'),
+						markers:[
+							{
+								source:require('./asset/floor.png'),
+								style:{width:"20px",height:"20px"},
+								x:100,
+								y:100,
+								onClick:()=>{
+									alert('click')
+								}
+							}
+						]
+					},
 					{original:require('./asset/3.jpg')},
 					{original:require('./asset/4.jpg')}
 				]}/>
@@ -67,17 +80,6 @@ class MotionDemo extends Component {
 
 
 class Example extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			images: [
-				{original: require('./asset/2.jpg')},
-				{original: require('./asset/3.jpg')},
-				{original: require('./asset/4.jpg')},
-			]
-		};
-	}
-
 	render() {
 		return (
 			<div>

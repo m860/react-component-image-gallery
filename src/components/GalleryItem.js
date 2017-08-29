@@ -16,7 +16,14 @@ export default class GalleryItem extends PureComponent {
 	_img: HTMLElement
 
 	static propTypes = {
-		item: PropTypes.object.isRequired
+		item: PropTypes.object.isRequired,
+		minScale: PropTypes.number,
+		maxScale: PropTypes.number
+	};
+
+	static defaultProps = {
+		minScale: 0.5,
+		maxScale: 3
 	};
 
 
@@ -31,19 +38,8 @@ export default class GalleryItem extends PureComponent {
 		this.state = {
 			scale: 1,
 			x: 0,
-			y: 0
+			y: 0,
 		};
-	}
-
-	_zoom(scale) {
-		this.setState(
-			Object.assign({}, this.state, {
-				scale
-			}), ()=> {
-				console.log(`image real width : ${this._getRealWidth()},real height : ${this._getRealHeight()}`);
-				console.log(`container width=${this._getContainerWidth()},height=${this._getContainerHeight()}`)
-			}
-		)
 	}
 
 	_getRealWidth() {
@@ -106,15 +102,31 @@ export default class GalleryItem extends PureComponent {
 			x: this.state.x + diff.x,
 			y: this.state.y + diff.y
 		});
-		const region=this._getMovingRegion(this.state.scale);
-		if(newState.x<=region.right && newState.x>=region.left){
+		const region = this._getMovingRegion(this.state.scale);
+		if (newState.x <= region.right && newState.x >= region.left) {
 			event.stopPropagation();
 			this.setState(newState);
 		}
 	}
 
+	_getDistance(touches) {
+		const touch1 = touches[0];
+		const touch2 = touches[1];
+		return Math.sqrt(Math.pow(touch1.pageX - touch2.pageX, 2) + Math.pow(touch1.pageY - touch2.pageY, 2));
+	}
+
 	_scale(event) {
-		//TODO
+		const dis1 = this._getDistance(event.targetTouches);
+		const dis2 = this._getDistance(this._lastTouches);
+		this._lastTouches = event.targetTouches;
+
+		const diff = dis1 - dis2;
+		const scale = diff / 1000;
+
+		const state = Object.assign({}, this.state, {
+			scale: this.state.scale + scale,
+		});
+		this.setState(state);
 	}
 
 	_restore(event) {
@@ -134,13 +146,20 @@ export default class GalleryItem extends PureComponent {
 		else if (y > region.bottom) {
 			y = region.bottom;
 		}
+		if (scale < this.props.minScale) {
+			scale = this.props.minScale;
+		}
+		else if (scale > this.props.maxScale) {
+			scale = this.props.maxScale;
+		}
 		const state = Object.assign({}, this.state, {x, y, scale});
 		this.setState(state);
 	}
 
 	render() {
+		const markers=this.props.item.markers||[];
 		return (
-			<div ref="root">
+			<div style={{position:"relative"}} ref="root">
 				<Motion
 					onRest={()=>{
 						//TODO
@@ -189,21 +208,20 @@ export default class GalleryItem extends PureComponent {
 						);
 					}}
 				</Motion>
-				<div
-					className="debug-zoom-buttons">
-					<button type="button" onClick={()=>{
-						this._zoom(1);
-					}}>1x
-					</button>
-					<button type="button" onClick={()=>{
-						this._zoom(2)
-					}}>2x
-					</button>
-					<button type="button" onClick={()=>{
-						this._zoom(3)
-					}}>3x
-					</button>
-				</div>
+				{markers.map((marker, index)=> {
+					const newX=marker.x+this.state.x;
+					const newY=marker.y+this.state.y;
+					return (
+						<Motion defaultStyle={{x:marker.x,y:marker.y}} style={{x:spring(newX),y:spring(newY)}}>
+							{({x,y})=>{
+								return (
+									<GalleryMarker {...marker} key={index} x={x} y={y}/>
+								);
+							}}
+						</Motion>
+
+					);
+				})}
 			</div>
 		);
 	}

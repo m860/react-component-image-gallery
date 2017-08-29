@@ -15,48 +15,23 @@ export default class Gallery extends PureComponent {
 	static propTypes = {
 		style: PropTypes.object,
 		className: PropTypes.string,
+		minScale: PropTypes.number,
+		maxScale: PropTypes.number
 	};
-	static defaultProps = {
-	};
-
-	constructor(props) {
-		super(props);
-		this.gallery=null;
-		this.preClickTime=null;
-		this._scale=1;
-	}
-
-	getImg(){
-		return this.gallery._imageGallery.querySelector("div.center img");
-	}
-
-	getImgRealWidth(){
-		//TODO
-	}
-	getImgRealHeight(){
-		//TODO
-	}
-	getImgScale(){
-		//TODO
-	}
+	static defaultProps = {};
 
 	render() {
 		return (
 			<ImageGallery {...this.props}
 				ref={component=>this.gallery=component}
 				renderItem={(item)=>{
+					console.log(item)
 					return (
-						<GalleryItem item={item}/>
+						<GalleryItem item={item} maxScale={this.props.maxScale} minScale={this.props.minScale}/>
 					);
 				}}
-				/>
+			/>
 		);
 	}
 
-	// componentDidMount(){
-	// 	const elImages=this.gallery._imageGallery.querySelectorAll("image-gallery-slides img");
-	// 	elImages.forEach(img=>{
-	// 		img.addEventListener('click')
-	// 	})
-	// }
 }
