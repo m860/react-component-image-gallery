@@ -28,6 +28,11 @@ class GalleryDemo extends Component {
 	render() {
 		return (
 			<Gallery
+				showPlayButton={false}
+				showNav={false}
+				showThumbnails={false}
+				showFullscreenButton={false}
+				useBrowserFullscreen={false}
 				items={[
 					{
 						original:require('./asset/2.jpg'),
