@@ -11,9 +11,6 @@ const actionType = {
 
 export default class GalleryItem extends PureComponent {
 	_actionType: actionType;
-	_width: Number;
-	_height: Number;
-	_img: HTMLElement
 
 	static propTypes = {
 		item: PropTypes.object.isRequired,
@@ -32,7 +29,7 @@ export default class GalleryItem extends PureComponent {
 		this._actionType = actionType.none;
 		this._touchStart = false;
 		this._lastTouches = [];
-		this._img = null;
+		this._mounted=false;
 		this.state = {
 			scale: 1,
 			x: 0,
@@ -157,6 +154,18 @@ export default class GalleryItem extends PureComponent {
 		this.setState(state);
 	}
 
+	reset() {
+		if(this._mounted) {
+			this.setState(
+				Object.assign({}, this.state, {
+					x: 0,
+					y: 0,
+					scale: 1
+				})
+			)
+		}
+	}
+
 	render() {
 		const markers = this.props.item.markers || [];
 		return (
@@ -167,7 +176,6 @@ export default class GalleryItem extends PureComponent {
 					{({scale, x, y})=> {
 						return (
 							<img
-								ref={img=>this._img=img}
 								style={{transform:`scale(${scale}) translate(${x}px,${y}px)`,transformOrigin:"center center"}}
 								onLoad={({target})=>{
 									const state=Object.assign({},this.state,{
@@ -210,7 +218,7 @@ export default class GalleryItem extends PureComponent {
 						);
 					}}
 				</Motion>
-				{this.state.counter === 2 && markers.map((marker, index)=> {
+				{this.state.counter >=1 && markers.map((marker, index)=> {
 					const containerWidth = this._getContainerWidth();
 					const containerHeight = this._getContainerHeight();
 					const newX = containerWidth / 2 + marker.x * this.state.scale + this.state.x;
@@ -220,6 +228,7 @@ export default class GalleryItem extends PureComponent {
 												   defaultY={marker.y}/>
 					);
 				})}
+				{/*
 				<div
 					style={{position:"absolute",left:0,right:0,bottom:0,zIndex:99999,backgroundColor:"rgba(0,0,0,0.8)",display:"flex",justifyContent:"center",alignItems:"center"}}>
 					<button type="button" style={{color:"white"}} onClick={()=>{
@@ -243,14 +252,19 @@ export default class GalleryItem extends PureComponent {
 					}}>3x
 					</button>
 				</div>
+				 */}
 			</div>
 		);
 	}
 
 	componentDidMount() {
+		this._mounted=true;
 		const state = Object.assign({}, this.state, {
 			counter: this.state.counter + 1
 		});
 		this.setState(state);
+	}
+	componentWillUnmount(){
+		this._mounted=false;
 	}
 }

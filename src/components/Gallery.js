@@ -20,13 +20,27 @@ export default class Gallery extends PureComponent {
 	};
 	static defaultProps = {};
 
+	constructor(props) {
+		super(props);
+		this._prevItem = null;
+	}
+
 	render() {
 		return (
 			<ImageGallery {...this.props}
 				ref={component=>this.gallery=component}
 				renderItem={(item)=>{
 					return (
-						<GalleryItem item={item} maxScale={this.props.maxScale} minScale={this.props.minScale}/>
+						<GalleryItem
+							ref={component=>{
+								if(this._prevItem){
+									this._prevItem.reset();
+								}
+								this._prevItem=component;
+							}}
+							item={item}
+							maxScale={this.props.maxScale}
+							minScale={this.props.minScale}/>
 					);
 				}}
 			/>
