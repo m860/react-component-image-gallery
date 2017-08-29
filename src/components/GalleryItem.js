@@ -29,8 +29,6 @@ export default class GalleryItem extends PureComponent {
 
 	constructor(props) {
 		super(props);
-		this._width = null;
-		this._height = null;
 		this._actionType = actionType.none;
 		this._touchStart = false;
 		this._lastTouches = [];
@@ -39,15 +37,18 @@ export default class GalleryItem extends PureComponent {
 			scale: 1,
 			x: 0,
 			y: 0,
+			width: null,
+			height: null,
+			counter: 0 // ==1 is ready
 		};
 	}
 
 	_getRealWidth() {
-		return this._width * this.state.scale;
+		return this.state.width * this.state.scale;
 	}
 
 	_getRealHeight() {
-		return this._height * this.state.scale;
+		return this.state.height * this.state.scale;
 	}
 
 	_getContainerWidth() {
@@ -61,8 +62,8 @@ export default class GalleryItem extends PureComponent {
 	}
 
 	_getMovingRegion(scale) {
-		const width = this._width * scale;
-		const height = this._height * scale;
+		const width = this.state.width * scale;
+		const height = this.state.height * scale;
 		const hw = width / 2;
 		const hh = height / 2;
 		const containerWidth = this._getContainerWidth();
@@ -82,7 +83,7 @@ export default class GalleryItem extends PureComponent {
 			left: -offsetX,
 			right: offsetX,
 			top: -offsetY,
-			bottom: offsetY
+			bottom: offsetY,
 		};
 	}
 
@@ -157,13 +158,10 @@ export default class GalleryItem extends PureComponent {
 	}
 
 	render() {
-		const markers=this.props.item.markers||[];
+		const markers = this.props.item.markers || [];
 		return (
 			<div style={{position:"relative"}} ref="root">
 				<Motion
-					onRest={()=>{
-						//TODO
-					}}
 					defaultStyle={{scale:1,x:0,y:0}}
 					style={{scale:spring(this.state.scale),x:spring(this.state.x/this.state.scale),y:spring(this.state.y/this.state.scale)}}>
 					{({scale, x, y})=> {
@@ -172,8 +170,12 @@ export default class GalleryItem extends PureComponent {
 								ref={img=>this._img=img}
 								style={{transform:`scale(${scale}) translate(${x}px,${y}px)`,transformOrigin:"center center"}}
 								onLoad={({target})=>{
-									this._width=target.width;
-									this._height=target.height;
+									const state=Object.assign({},this.state,{
+										width:target.width,
+										height:target.height,
+										counter:this.state.counter+1
+									});
+									this.setState(state);
 								}}
 								onTouchStart={event=>{
 									this._touchStart=true;
@@ -208,21 +210,47 @@ export default class GalleryItem extends PureComponent {
 						);
 					}}
 				</Motion>
-				{markers.map((marker, index)=> {
-					const newX=marker.x+this.state.x;
-					const newY=marker.y+this.state.y;
+				{this.state.counter === 2 && markers.map((marker, index)=> {
+					const containerWidth = this._getContainerWidth();
+					const containerHeight = this._getContainerHeight();
+					const newX = containerWidth / 2 + marker.x * this.state.scale + this.state.x;
+					const newY = containerHeight / 2 + marker.y * this.state.scale + this.state.y;
 					return (
-						<Motion defaultStyle={{x:marker.x,y:marker.y}} style={{x:spring(newX),y:spring(newY)}}>
-							{({x,y})=>{
-								return (
-									<GalleryMarker {...marker} key={index} x={x} y={y}/>
-								);
-							}}
-						</Motion>
-
+						<GalleryMarker {...marker} key={index} x={newX} y={newY} defaultX={marker.x}
+												   defaultY={marker.y}/>
 					);
 				})}
+				<div
+					style={{position:"absolute",left:0,right:0,bottom:0,zIndex:99999,backgroundColor:"rgba(0,0,0,0.8)",display:"flex",justifyContent:"center",alignItems:"center"}}>
+					<button type="button" style={{color:"white"}} onClick={()=>{
+						const state=Object.assign({},this.state,{scale:0.5});
+						this.setState(state);
+					}}>0.5x
+					</button>
+					<button type="button" style={{color:"white"}} onClick={()=>{
+						const state=Object.assign({},this.state,{scale:1});
+						this.setState(state);
+					}}>1x
+					</button>
+					<button type="button" style={{color:"white"}} onClick={()=>{
+						const state=Object.assign({},this.state,{scale:2});
+						this.setState(state);
+					}}>2x
+					</button>
+					<button type="button" style={{color:"white"}} onClick={()=>{
+						const state=Object.assign({},this.state,{scale:3});
+						this.setState(state);
+					}}>3x
+					</button>
+				</div>
 			</div>
 		);
+	}
+
+	componentDidMount() {
+		const state = Object.assign({}, this.state, {
+			counter: this.state.counter + 1
+		});
+		this.setState(state);
 	}
 }

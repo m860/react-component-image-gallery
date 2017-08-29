@@ -25,7 +25,6 @@ export default class Gallery extends PureComponent {
 			<ImageGallery {...this.props}
 				ref={component=>this.gallery=component}
 				renderItem={(item)=>{
-					console.log(item)
 					return (
 						<GalleryItem item={item} maxScale={this.props.maxScale} minScale={this.props.minScale}/>
 					);

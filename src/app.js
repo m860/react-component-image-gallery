@@ -35,8 +35,8 @@ class GalleryDemo extends Component {
 							{
 								source:require('./asset/floor.png'),
 								style:{width:"20px",height:"20px"},
-								x:100,
-								y:100,
+								x:10,
+								y:10,
 								onClick:()=>{
 									alert('click')
 								}
