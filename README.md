@@ -26,5 +26,5 @@ $ npm i react-component-image-gallery --save
 ## Import
 
 ```javascript
-import {Gallery} from 'react-component-image-gallery'
+import Gallery from 'react-component-image-gallery'
 ```
