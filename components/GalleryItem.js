@@ -301,31 +301,7 @@ var GalleryItem = function (_PureComponent) {
 					y += diff.y;
 					return _react2.default.createElement(_GalleryMarker2.default, _extends({}, marker, { key: index, x: x, y: y, defaultX: marker.x,
 						defaultY: marker.y }));
-				}),
-				_react2.default.createElement(
-					"div",
-					{ style: { position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", justifyContent: "center" } },
-					_react2.default.createElement(
-						"button",
-						{ type: "button", onClick: function onClick() {
-								var state = Object.assign({}, _this2.state, {
-									scale: _this2.state.scale + 0.1
-								});
-								_this2.setState(state);
-							} },
-						"\u653E\u5927"
-					),
-					_react2.default.createElement(
-						"button",
-						{ type: "button", onClick: function onClick() {
-								var state = Object.assign({}, _this2.state, {
-									scale: _this2.state.scale - 0.1
-								});
-								_this2.setState(state);
-							} },
-						"\u7F29\u5C0F"
-					)
-				)
+				})
 			);
 		}
 	}, {

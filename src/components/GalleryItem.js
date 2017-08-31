@@ -275,6 +275,7 @@ export default class GalleryItem extends PureComponent {
 												   defaultY={marker.y}/>
 					);
 				})}
+				{/*
 				<div style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",justifyContent:"center"}}>
 					<button type="button" onClick={()=>{
 						const state=Object.assign({},this.state,{
@@ -291,6 +292,7 @@ export default class GalleryItem extends PureComponent {
 					}}>缩小
 					</button>
 				</div>
+				 */}
 			</div>
 		);
 	}
