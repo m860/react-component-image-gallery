@@ -71,9 +71,6 @@ var GalleryMarker = function (_PureComponent) {
 				}
 			);
 		}
-	}, {
-		key: "componentDidMount",
-		value: function componentDidMount() {}
 	}]);
 
 	return GalleryMarker;

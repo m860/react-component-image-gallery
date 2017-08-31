@@ -15,12 +15,16 @@ export default class GalleryItem extends PureComponent {
 	static propTypes = {
 		item: PropTypes.object.isRequired,
 		minScale: PropTypes.number,
-		maxScale: PropTypes.number
+		maxScale: PropTypes.number,
+		style: PropTypes.object,
+		className: PropTypes.string
 	};
 
 	static defaultProps = {
 		minScale: 1,
-		maxScale: 3
+		maxScale: 3,
+		style: {},
+		className: ''
 	};
 
 
@@ -31,6 +35,7 @@ export default class GalleryItem extends PureComponent {
 		this._lastTouches = [];
 		this._mounted = false;
 		this.state = {
+			useSpring: false,
 			scale: 1,
 			x: 0,
 			y: 0,
@@ -161,7 +166,7 @@ export default class GalleryItem extends PureComponent {
 		else if (scale > this.props.maxScale) {
 			scale = this.props.maxScale;
 		}
-		const state = Object.assign({}, this.state, {x, y, scale});
+		const state = Object.assign({}, this.state, {x, y, scale, useSpring: true});
 		this.setState(state);
 	}
 
@@ -183,10 +188,20 @@ export default class GalleryItem extends PureComponent {
 		}
 		const markers = this.props.item.markers || [];
 		return (
-			<div style={{position:"relative"}} ref="root">
+			<div className={this.props.className} style={{...this.props.style, position:"relative"}} ref="root">
 				<Motion
 					defaultStyle={{scale:1,x:0,y:0}}
-					style={{scale:spring(this.state.scale),x:spring(this.state.x/this.state.scale),y:spring(this.state.y/this.state.scale)}}>
+					onRest={()=>{
+						const state=Object.assign({},this.state,{
+							useSpring:false
+						});
+						this.setState(state);
+					}}
+					style={{
+						scale:this.state.useSpring?spring(this.state.scale):this.state.scale,
+						x:this.state.useSpring?spring(this.state.x/this.state.scale):this.state.x/this.state.scale,
+						y:this.state.useSpring?spring(this.state.y/this.state.scale):this.state.y/this.state.scale
+					}}>
 					{({scale, x, y})=> {
 						return (
 							<img
@@ -235,13 +250,47 @@ export default class GalleryItem extends PureComponent {
 					}}
 				</Motion>
 				{markers.map((marker, index)=> {
-					const newX = marker.x * this.state.initialScale * this.state.scale + this.state.x;
-					const newY = marker.y * this.state.initialScale * this.state.scale + this.state.y;
+					const containerWidth = this._getContainerWidth();
+					const containerHeight = this._getContainerHeight();
+					const imageRealWidth = this._getRealWidth();
+					const imageRealHeight = this._getRealHeight();
+					console.log(`container width=${containerWidth},image width=${containerHeight}`);
+					console.log(`image width=${imageRealWidth},image height=${imageRealHeight}`);
+					const diff = {
+						x: (containerWidth - imageRealWidth) / 2,
+						y: (containerHeight - imageRealHeight) / 2
+					};
+					console.log(`diff x=${diff.x},y=${diff.y}`)
+					let x = marker.x * this.state.initialScale;
+					//+偏移
+					x *= this.state.scale;
+					x += diff.x;
+					x += this.state.x;
+					let y = marker.y * this.state.initialScale;
+					y *= this.state.scale;
+					y += this.state.y;
+					y += diff.y;
 					return (
-						<GalleryMarker {...marker} key={index} x={newX} y={newY} defaultX={marker.x}
+						<GalleryMarker {...marker} key={index} x={x} y={y} defaultX={marker.x}
 												   defaultY={marker.y}/>
 					);
 				})}
+				<div style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",justifyContent:"center"}}>
+					<button type="button" onClick={()=>{
+						const state=Object.assign({},this.state,{
+							scale:this.state.scale+0.1
+						});
+						this.setState(state);
+					}}>放大
+					</button>
+					<button type="button" onClick={()=>{
+						const state=Object.assign({},this.state,{
+							scale:this.state.scale-0.1
+						});
+						this.setState(state);
+					}}>缩小
+					</button>
+				</div>
 			</div>
 		);
 	}

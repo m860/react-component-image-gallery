@@ -51,7 +51,7 @@ class GalleryDemo extends Component {
 							}
 						]
 					},
-					{
+					/*{
 						original:'http://172.16.0.253:13002/ibuild/Original/2017/0814/30528e25-0f9f-4527-8a4d-090aeeded7e7.png',
 						markers:[{
 							source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/construction_elevator@2x.png',
@@ -70,7 +70,7 @@ class GalleryDemo extends Component {
 									alert('click')
 								}
 						}]
-					},
+					},*/
 				]}/>
 				</div>
 			</div>

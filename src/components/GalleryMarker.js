@@ -51,8 +51,4 @@ export default class GalleryMarker extends PureComponent {
 
 		);
 	}
-
-	componentDidMount() {
-
-	}
 }

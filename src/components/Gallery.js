@@ -54,9 +54,15 @@ export default class Gallery extends PureComponent {
 		style: PropTypes.object,
 		className: PropTypes.string,
 		minScale: PropTypes.number,
-		maxScale: PropTypes.number
+		maxScale: PropTypes.number,
+		itemOptions:PropTypes.shape({
+			style:PropTypes.object,
+			className:PropTypes.string
+		})
 	};
-	static defaultProps = {};
+	static defaultProps = {
+		itemOptions:{}
+	};
 
 	constructor(props) {
 		super(props);
@@ -68,7 +74,7 @@ export default class Gallery extends PureComponent {
 			<ImageGallery {...this.props}
 				renderItem={(item)=>{
 					return (
-						<GalleryItem
+						<GalleryItem {...this.props.itemOptions}
 							ref={component=>{
 								if(this._prevItem){
 									this._prevItem.reset();

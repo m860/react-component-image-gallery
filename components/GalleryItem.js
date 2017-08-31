@@ -49,6 +49,7 @@ var GalleryItem = function (_PureComponent) {
 		_this._lastTouches = [];
 		_this._mounted = false;
 		_this.state = {
+			useSpring: false,
 			scale: 1,
 			x: 0,
 			y: 0,
@@ -188,7 +189,7 @@ var GalleryItem = function (_PureComponent) {
 			} else if (scale > this.props.maxScale) {
 				scale = this.props.maxScale;
 			}
-			var state = Object.assign({}, this.state, { x: x, y: y, scale: scale });
+			var state = Object.assign({}, this.state, { x: x, y: y, scale: scale, useSpring: true });
 			this.setState(state);
 		}
 	}, {
@@ -213,12 +214,22 @@ var GalleryItem = function (_PureComponent) {
 			var markers = this.props.item.markers || [];
 			return _react2.default.createElement(
 				"div",
-				{ style: { position: "relative" }, ref: "root" },
+				{ className: this.props.className, style: _extends({}, this.props.style, { position: "relative" }), ref: "root" },
 				_react2.default.createElement(
 					_reactMotion.Motion,
 					{
 						defaultStyle: { scale: 1, x: 0, y: 0 },
-						style: { scale: (0, _reactMotion.spring)(this.state.scale), x: (0, _reactMotion.spring)(this.state.x / this.state.scale), y: (0, _reactMotion.spring)(this.state.y / this.state.scale) } },
+						onRest: function onRest() {
+							var state = Object.assign({}, _this2.state, {
+								useSpring: false
+							});
+							_this2.setState(state);
+						},
+						style: {
+							scale: this.state.useSpring ? (0, _reactMotion.spring)(this.state.scale) : this.state.scale,
+							x: this.state.useSpring ? (0, _reactMotion.spring)(this.state.x / this.state.scale) : this.state.x / this.state.scale,
+							y: this.state.useSpring ? (0, _reactMotion.spring)(this.state.y / this.state.scale) : this.state.y / this.state.scale
+						} },
 					function (_ref) {
 						var scale = _ref.scale,
 						    x = _ref.x,
@@ -268,11 +279,53 @@ var GalleryItem = function (_PureComponent) {
 					}
 				),
 				markers.map(function (marker, index) {
-					var newX = marker.x * _this2.state.initialScale * _this2.state.scale + _this2.state.x;
-					var newY = marker.y * _this2.state.initialScale * _this2.state.scale + _this2.state.y;
-					return _react2.default.createElement(_GalleryMarker2.default, _extends({}, marker, { key: index, x: newX, y: newY, defaultX: marker.x,
+					var containerWidth = _this2._getContainerWidth();
+					var containerHeight = _this2._getContainerHeight();
+					var imageRealWidth = _this2._getRealWidth();
+					var imageRealHeight = _this2._getRealHeight();
+					console.log("container width=" + containerWidth + ",image width=" + containerHeight);
+					console.log("image width=" + imageRealWidth + ",image height=" + imageRealHeight);
+					var diff = {
+						x: (containerWidth - imageRealWidth) / 2,
+						y: (containerHeight - imageRealHeight) / 2
+					};
+					console.log("diff x=" + diff.x + ",y=" + diff.y);
+					var x = marker.x * _this2.state.initialScale;
+					//+偏移
+					x *= _this2.state.scale;
+					x += diff.x;
+					x += _this2.state.x;
+					var y = marker.y * _this2.state.initialScale;
+					y *= _this2.state.scale;
+					y += _this2.state.y;
+					y += diff.y;
+					return _react2.default.createElement(_GalleryMarker2.default, _extends({}, marker, { key: index, x: x, y: y, defaultX: marker.x,
 						defaultY: marker.y }));
-				})
+				}),
+				_react2.default.createElement(
+					"div",
+					{ style: { position: "absolute", bottom: 0, left: 0, right: 0, display: "flex", justifyContent: "center" } },
+					_react2.default.createElement(
+						"button",
+						{ type: "button", onClick: function onClick() {
+								var state = Object.assign({}, _this2.state, {
+									scale: _this2.state.scale + 0.1
+								});
+								_this2.setState(state);
+							} },
+						"\u653E\u5927"
+					),
+					_react2.default.createElement(
+						"button",
+						{ type: "button", onClick: function onClick() {
+								var state = Object.assign({}, _this2.state, {
+									scale: _this2.state.scale - 0.1
+								});
+								_this2.setState(state);
+							} },
+						"\u7F29\u5C0F"
+					)
+				)
 			);
 		}
 	}, {
@@ -317,10 +370,14 @@ var GalleryItem = function (_PureComponent) {
 GalleryItem.propTypes = {
 	item: _propTypes2.default.object.isRequired,
 	minScale: _propTypes2.default.number,
-	maxScale: _propTypes2.default.number
+	maxScale: _propTypes2.default.number,
+	style: _propTypes2.default.object,
+	className: _propTypes2.default.string
 };
 GalleryItem.defaultProps = {
 	minScale: 1,
-	maxScale: 3
+	maxScale: 3,
+	style: {},
+	className: ''
 };
 exports.default = GalleryItem;

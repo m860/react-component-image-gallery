@@ -98,7 +98,7 @@ var Gallery = function (_PureComponent) {
 
 			return _react2.default.createElement(_reactImageGallery2.default, _extends({}, this.props, {
 				renderItem: function renderItem(item) {
-					return _react2.default.createElement(_GalleryItem2.default, {
+					return _react2.default.createElement(_GalleryItem2.default, _extends({}, _this2.props.itemOptions, {
 						ref: function ref(component) {
 							if (_this2._prevItem) {
 								_this2._prevItem.reset();
@@ -107,7 +107,7 @@ var Gallery = function (_PureComponent) {
 						},
 						item: item,
 						maxScale: _this2.props.maxScale,
-						minScale: _this2.props.minScale });
+						minScale: _this2.props.minScale }));
 				}
 			}));
 		}
@@ -120,7 +120,13 @@ Gallery.propTypes = {
 	style: _propTypes2.default.object,
 	className: _propTypes2.default.string,
 	minScale: _propTypes2.default.number,
-	maxScale: _propTypes2.default.number
+	maxScale: _propTypes2.default.number,
+	itemOptions: _propTypes2.default.shape({
+		style: _propTypes2.default.object,
+		className: _propTypes2.default.string
+	})
 };
-Gallery.defaultProps = {};
+Gallery.defaultProps = {
+	itemOptions: {}
+};
 exports.default = Gallery;
