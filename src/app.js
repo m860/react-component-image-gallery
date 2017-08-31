@@ -4,6 +4,7 @@ import GalleryItem from './components/GalleryItem'
 import Gallery from './components/Gallery'
 import './asset/app.sass'
 import {Motion, spring} from 'react-motion'
+import ViewTransform from './components/ViewTransform'
 
 class GalleryItemDemo extends Component {
 	render() {
@@ -27,30 +28,52 @@ class GalleryItemDemo extends Component {
 class GalleryDemo extends Component {
 	render() {
 		return (
-			<Gallery
-				showPlayButton={false}
-				showNav={false}
-				showThumbnails={false}
-				showFullscreenButton={false}
-				useBrowserFullscreen={false}
-				items={[
+			<div style={{flex:1,overflow:"hidden",justifyContent:"center",alignItems:"center",display:"flex"}}>
+				<div>
+					<Gallery
+						showPlayButton={false}
+						showNav={false}
+						showThumbnails={false}
+						showFullscreenButton={false}
+						useBrowserFullscreen={false}
+						items={[
 					{
-						original:require('./asset/2.jpg'),
+						original:'http://172.16.0.253:13002/ibuild/Original/2017/0727/4fda58cd-8f0b-4e2c-8f51-6688072056bd.png',
 						markers:[
 							{
-								source:require('./asset/floor.png'),
+								source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/env_monitor@2x.png',
 								style:{width:"20px",height:"20px"},
-								x:10,
-								y:10,
+								x:651.56,
+								y:722.981,
 								onClick:()=>{
 									alert('click')
 								}
 							}
 						]
 					},
-					{original:require('./asset/3.jpg')},
-					{original:require('./asset/4.jpg')}
+					{
+						original:'http://172.16.0.253:13002/ibuild/Original/2017/0814/30528e25-0f9f-4527-8a4d-090aeeded7e7.png',
+						markers:[{
+							source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/construction_elevator@2x.png',
+							style:{width:"20px",height:"20px"},
+								x:236.16,
+								y:228,
+								onClick:()=>{
+									alert('click')
+								}
+						},{
+							source:"http://172.16.0.253:13002/ibuild/sitemap_icon/location/construction_elevator@2x.png",
+							style:{width:"20px",height:"20px"},
+								x:647.04,
+								y:410.4,
+								onClick:()=>{
+									alert('click')
+								}
+						}]
+					},
 				]}/>
+				</div>
+			</div>
 		);
 	}
 }
@@ -83,16 +106,21 @@ class MotionDemo extends Component {
 	}
 }
 
+class ViewTransformDemo extends Component {
+	render() {
+		return (
+			<ViewTransform style={{backgroundColor:"silver",flex:1,justifyContent:"center",alignItems:"center"}}>
+				<div>haha</div>
+			</ViewTransform>
+		);
+	}
+}
+
 
 class Example extends Component {
 	render() {
 		return (
-			<div>
-				{/*<h5>Gallery Item Demo</h5>*/}
-				{/*<GalleryItemDemo/>*/}
-				<h5>Gallery Demo</h5>
-				<GalleryDemo/>
-			</div>
+			<GalleryDemo></GalleryDemo>
 		);
 	}
 }

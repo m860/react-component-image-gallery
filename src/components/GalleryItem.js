@@ -19,7 +19,7 @@ export default class GalleryItem extends PureComponent {
 	};
 
 	static defaultProps = {
-		minScale: 0.5,
+		minScale: 1,
 		maxScale: 3
 	};
 
@@ -29,14 +29,19 @@ export default class GalleryItem extends PureComponent {
 		this._actionType = actionType.none;
 		this._touchStart = false;
 		this._lastTouches = [];
-		this._mounted=false;
+		this._mounted = false;
 		this.state = {
 			scale: 1,
 			x: 0,
 			y: 0,
 			width: null,
 			height: null,
-			counter: 0 // ==1 is ready
+			imageIsReady: false,
+			initialScale: 1,
+			originalSize: {
+				width: 0,
+				height: 0
+			}
 		};
 	}
 
@@ -50,12 +55,18 @@ export default class GalleryItem extends PureComponent {
 
 	_getContainerWidth() {
 		const {root}=this.refs;
-		return root.clientWidth;
+		if (root) {
+			return root.clientWidth;
+		}
+		return 0;
 	}
 
 	_getContainerHeight() {
 		const {root}=this.refs;
-		return root.clientHeight;
+		if (root) {
+			return root.clientHeight;
+		}
+		return 0;
 	}
 
 	_getMovingRegion(scale) {
@@ -155,7 +166,7 @@ export default class GalleryItem extends PureComponent {
 	}
 
 	reset() {
-		if(this._mounted) {
+		if (this._mounted) {
 			this.setState(
 				Object.assign({}, this.state, {
 					x: 0,
@@ -167,6 +178,9 @@ export default class GalleryItem extends PureComponent {
 	}
 
 	render() {
+		if (!this.state.imageIsReady) {
+			return null;
+		}
 		const markers = this.props.item.markers || [];
 		return (
 			<div style={{position:"relative"}} ref="root">
@@ -177,11 +191,13 @@ export default class GalleryItem extends PureComponent {
 						return (
 							<img
 								style={{transform:`scale(${scale}) translate(${x}px,${y}px)`,transformOrigin:"center center"}}
-								onLoad={({target})=>{
+								onLoad={(event)=>{
+									const {target}=event;
 									const state=Object.assign({},this.state,{
 										width:target.width,
 										height:target.height,
-										counter:this.state.counter+1
+										counter:this.state.counter+1,
+										initialScale:target.width/this.state.originalSize.width
 									});
 									this.setState(state);
 								}}
@@ -218,53 +234,44 @@ export default class GalleryItem extends PureComponent {
 						);
 					}}
 				</Motion>
-				{this.state.counter >=1 && markers.map((marker, index)=> {
-					const containerWidth = this._getContainerWidth();
-					const containerHeight = this._getContainerHeight();
-					const newX = containerWidth / 2 + marker.x * this.state.scale + this.state.x;
-					const newY = containerHeight / 2 + marker.y * this.state.scale + this.state.y;
+				{markers.map((marker, index)=> {
+					const newX = marker.x * this.state.initialScale * this.state.scale + this.state.x;
+					const newY = marker.y * this.state.initialScale * this.state.scale + this.state.y;
 					return (
 						<GalleryMarker {...marker} key={index} x={newX} y={newY} defaultX={marker.x}
 												   defaultY={marker.y}/>
 					);
 				})}
-				{/*
-				<div
-					style={{position:"absolute",left:0,right:0,bottom:0,zIndex:99999,backgroundColor:"rgba(0,0,0,0.8)",display:"flex",justifyContent:"center",alignItems:"center"}}>
-					<button type="button" style={{color:"white"}} onClick={()=>{
-						const state=Object.assign({},this.state,{scale:0.5});
-						this.setState(state);
-					}}>0.5x
-					</button>
-					<button type="button" style={{color:"white"}} onClick={()=>{
-						const state=Object.assign({},this.state,{scale:1});
-						this.setState(state);
-					}}>1x
-					</button>
-					<button type="button" style={{color:"white"}} onClick={()=>{
-						const state=Object.assign({},this.state,{scale:2});
-						this.setState(state);
-					}}>2x
-					</button>
-					<button type="button" style={{color:"white"}} onClick={()=>{
-						const state=Object.assign({},this.state,{scale:3});
-						this.setState(state);
-					}}>3x
-					</button>
-				</div>
-				 */}
 			</div>
 		);
 	}
 
-	componentDidMount() {
-		this._mounted=true;
+	_loadImageComplete(err, event) {
+		const imageOriginalSize = {
+			width: event.target.width,
+			height: event.target.height
+		};
+		console.log(`image original size : ${JSON.stringify(imageOriginalSize)}`)
 		const state = Object.assign({}, this.state, {
-			counter: this.state.counter + 1
+			imageIsReady: true,
+			originalSize: imageOriginalSize
 		});
 		this.setState(state);
 	}
-	componentWillUnmount(){
-		this._mounted=false;
+
+	componentDidMount() {
+		this._mounted = true;
+		let image = new Image();
+		image.src = this.props.item.original;
+		image.onload = (event)=> {
+			this._loadImageComplete(null, event);
+		};
+		image.onerror = (err)=> {
+			this._loadImageComplete(err);
+		}
+	}
+
+	componentWillUnmount() {
+		this._mounted = false;
 	}
 }

@@ -54,7 +54,12 @@ var GalleryItem = function (_PureComponent) {
 			y: 0,
 			width: null,
 			height: null,
-			counter: 0 // ==1 is ready
+			imageIsReady: false,
+			initialScale: 1,
+			originalSize: {
+				width: 0,
+				height: 0
+			}
 		};
 		return _this;
 	}
@@ -74,14 +79,20 @@ var GalleryItem = function (_PureComponent) {
 		value: function _getContainerWidth() {
 			var root = this.refs.root;
 
-			return root.clientWidth;
+			if (root) {
+				return root.clientWidth;
+			}
+			return 0;
 		}
 	}, {
 		key: "_getContainerHeight",
 		value: function _getContainerHeight() {
 			var root = this.refs.root;
 
-			return root.clientHeight;
+			if (root) {
+				return root.clientHeight;
+			}
+			return 0;
 		}
 	}, {
 		key: "_getMovingRegion",
@@ -196,6 +207,9 @@ var GalleryItem = function (_PureComponent) {
 		value: function render() {
 			var _this2 = this;
 
+			if (!this.state.imageIsReady) {
+				return null;
+			}
 			var markers = this.props.item.markers || [];
 			return _react2.default.createElement(
 				"div",
@@ -212,13 +226,14 @@ var GalleryItem = function (_PureComponent) {
 
 						return _react2.default.createElement("img", {
 							style: { transform: "scale(" + scale + ") translate(" + x + "px," + y + "px)", transformOrigin: "center center" },
-							onLoad: function onLoad(_ref2) {
-								var target = _ref2.target;
+							onLoad: function onLoad(event) {
+								var target = event.target;
 
 								var state = Object.assign({}, _this2.state, {
 									width: target.width,
 									height: target.height,
-									counter: _this2.state.counter + 1
+									counter: _this2.state.counter + 1,
+									initialScale: target.width / _this2.state.originalSize.width
 								});
 								_this2.setState(state);
 							},
@@ -252,24 +267,42 @@ var GalleryItem = function (_PureComponent) {
 							src: _this2.props.item.original });
 					}
 				),
-				this.state.counter >= 1 && markers.map(function (marker, index) {
-					var containerWidth = _this2._getContainerWidth();
-					var containerHeight = _this2._getContainerHeight();
-					var newX = containerWidth / 2 + marker.x * _this2.state.scale + _this2.state.x;
-					var newY = containerHeight / 2 + marker.y * _this2.state.scale + _this2.state.y;
+				markers.map(function (marker, index) {
+					var newX = marker.x * _this2.state.initialScale * _this2.state.scale + _this2.state.x;
+					var newY = marker.y * _this2.state.initialScale * _this2.state.scale + _this2.state.y;
 					return _react2.default.createElement(_GalleryMarker2.default, _extends({}, marker, { key: index, x: newX, y: newY, defaultX: marker.x,
 						defaultY: marker.y }));
 				})
 			);
 		}
 	}, {
-		key: "componentDidMount",
-		value: function componentDidMount() {
-			this._mounted = true;
+		key: "_loadImageComplete",
+		value: function _loadImageComplete(err, event) {
+			var imageOriginalSize = {
+				width: event.target.width,
+				height: event.target.height
+			};
+			console.log("image original size : " + JSON.stringify(imageOriginalSize));
 			var state = Object.assign({}, this.state, {
-				counter: this.state.counter + 1
+				imageIsReady: true,
+				originalSize: imageOriginalSize
 			});
 			this.setState(state);
+		}
+	}, {
+		key: "componentDidMount",
+		value: function componentDidMount() {
+			var _this3 = this;
+
+			this._mounted = true;
+			var image = new Image();
+			image.src = this.props.item.original;
+			image.onload = function (event) {
+				_this3._loadImageComplete(null, event);
+			};
+			image.onerror = function (err) {
+				_this3._loadImageComplete(err);
+			};
 		}
 	}, {
 		key: "componentWillUnmount",
@@ -287,7 +320,7 @@ GalleryItem.propTypes = {
 	maxScale: _propTypes2.default.number
 };
 GalleryItem.defaultProps = {
-	minScale: 0.5,
+	minScale: 1,
 	maxScale: 3
 };
 exports.default = GalleryItem;

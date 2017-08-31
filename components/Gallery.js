@@ -79,8 +79,8 @@ var Gallery = function (_PureComponent) {
   * {@link https://github.com/xiaolin/react-image-gallery#props ...react-image-gallery.props }
   * @property {?Object} style
   * @property {?String} className
-  * @property {?Number} minScale - 最小缩放
-  * @property {?Number} maxScale - 最大缩放
+  * @property {?Number} minScale [1] - 最小缩放
+  * @property {?Number} maxScale [3] - 最大缩放
   * */
 	function Gallery(props) {
 		_classCallCheck(this, Gallery);

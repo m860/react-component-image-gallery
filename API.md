@@ -7,7 +7,7 @@
 
 ## Gallery
 
-[src/components/Gallery.js:45-87](https://github.com/m860/react-component-image-gallery/blob/dab80a1a1baf43fa8c3754b96f06a3b10e6399cb/src/components/Gallery.js#L45-L87 "Source code on GitHub")
+[src/components/Gallery.js:45-87](https://github.com/m860/react-component-image-gallery/blob/7f0d54edeb7bff2d965030984dc131aad8bd6f29/src/components/Gallery.js#L45-L87 "Source code on GitHub")
 
 **Extends PureComponent**
 
@@ -56,7 +56,7 @@ class GalleryDemo extends Component {
 
 ### propTypes
 
-[src/components/Gallery.js:53-58](https://github.com/m860/react-component-image-gallery/blob/dab80a1a1baf43fa8c3754b96f06a3b10e6399cb/src/components/Gallery.js#L53-L58 "Source code on GitHub")
+[src/components/Gallery.js:53-58](https://github.com/m860/react-component-image-gallery/blob/7f0d54edeb7bff2d965030984dc131aad8bd6f29/src/components/Gallery.js#L53-L58 "Source code on GitHub")
 
 [...react-image-gallery.props ](https://github.com/xiaolin/react-image-gallery#props)
 
@@ -64,5 +64,5 @@ class GalleryDemo extends Component {
 
 -   `style` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
 -   `className` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `minScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 最小缩放
--   `maxScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 最大缩放
+-   `minScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** [1] - 最小缩放
+-   `maxScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** [3] - 最大缩放
