@@ -73,7 +73,6 @@ var ViewTransform = function (_PureComponent) {
 				_reactMotion.Motion,
 				{
 					onRest: function onRest() {
-						console.log("" + JSON.stringify(_this2.state));
 						var state = Object.assign({}, _this2.state, {
 							useSpring: false
 						});
@@ -179,7 +178,7 @@ var ViewTransform = function (_PureComponent) {
 		key: "_restore",
 		value: function _restore() {
 			var region = this._getMovingRegion(this.state.scale);
-			console.log("region : " + JSON.stringify(region));
+
 			var x = this.state.x;
 			var y = this.state.y;
 			var scale = this.state.scale;
@@ -235,7 +234,6 @@ var ViewTransform = function (_PureComponent) {
 				this._originalSize = new Size(event.target.clientWidth, event.target.clientHeight);
 			}
 			this._point1 = new Point(event.pageX, event.pageY);
-			console.log("mouse down : " + JSON.stringify(this._point1));
 		}
 	}, {
 		key: "_onMouseMove",

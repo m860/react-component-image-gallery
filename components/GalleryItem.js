@@ -283,13 +283,12 @@ var GalleryItem = function (_PureComponent) {
 					var containerHeight = _this2._getContainerHeight();
 					var imageRealWidth = _this2._getRealWidth();
 					var imageRealHeight = _this2._getRealHeight();
-					console.log("container width=" + containerWidth + ",image width=" + containerHeight);
-					console.log("image width=" + imageRealWidth + ",image height=" + imageRealHeight);
+
 					var diff = {
 						x: (containerWidth - imageRealWidth) / 2,
 						y: (containerHeight - imageRealHeight) / 2
 					};
-					console.log("diff x=" + diff.x + ",y=" + diff.y);
+
 					var x = marker.x * _this2.state.initialScale;
 					//+偏移
 					x *= _this2.state.scale;
@@ -311,7 +310,7 @@ var GalleryItem = function (_PureComponent) {
 				width: event.target.width,
 				height: event.target.height
 			};
-			console.log("image original size : " + JSON.stringify(imageOriginalSize));
+
 			var state = Object.assign({}, this.state, {
 				imageIsReady: true,
 				originalSize: imageOriginalSize
