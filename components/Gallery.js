@@ -123,7 +123,8 @@ Gallery.propTypes = {
 	maxScale: _propTypes2.default.number,
 	itemOptions: _propTypes2.default.shape({
 		style: _propTypes2.default.object,
-		className: _propTypes2.default.string
+		className: _propTypes2.default.string,
+		scaleRate: _propTypes2.default.number
 	})
 };
 Gallery.defaultProps = {

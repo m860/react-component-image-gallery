@@ -55,13 +55,14 @@ export default class Gallery extends PureComponent {
 		className: PropTypes.string,
 		minScale: PropTypes.number,
 		maxScale: PropTypes.number,
-		itemOptions:PropTypes.shape({
-			style:PropTypes.object,
-			className:PropTypes.string
+		itemOptions: PropTypes.shape({
+			style: PropTypes.object,
+			className: PropTypes.string,
+			scaleRate: PropTypes.number
 		})
 	};
 	static defaultProps = {
-		itemOptions:{}
+		itemOptions: {}
 	};
 
 	constructor(props) {

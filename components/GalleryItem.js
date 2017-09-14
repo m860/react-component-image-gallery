@@ -160,10 +160,10 @@ var GalleryItem = function (_PureComponent) {
 			this._lastTouches = event.targetTouches;
 
 			var diff = dis1 - dis2;
-			var scale = diff / 1000;
-
+			var scale = diff / this.props.scaleRate;
+			var targetScale = this.state.scale + scale;
 			var state = Object.assign({}, this.state, {
-				scale: this.state.scale + scale
+				scale: targetScale > 0.1 ? targetScale : 0.1
 			});
 			this.setState(state);
 		}
@@ -347,12 +347,14 @@ GalleryItem.propTypes = {
 	minScale: _propTypes2.default.number,
 	maxScale: _propTypes2.default.number,
 	style: _propTypes2.default.object,
-	className: _propTypes2.default.string
+	className: _propTypes2.default.string,
+	scaleRate: _propTypes2.default.number
 };
 GalleryItem.defaultProps = {
 	minScale: 1,
 	maxScale: 3,
 	style: {},
-	className: ''
+	className: '',
+	scaleRate: 100
 };
 exports.default = GalleryItem;

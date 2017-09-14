@@ -17,14 +17,16 @@ export default class GalleryItem extends PureComponent {
 		minScale: PropTypes.number,
 		maxScale: PropTypes.number,
 		style: PropTypes.object,
-		className: PropTypes.string
+		className: PropTypes.string,
+		scaleRate: PropTypes.number
 	};
 
 	static defaultProps = {
 		minScale: 1,
 		maxScale: 3,
 		style: {},
-		className: ''
+		className: '',
+		scaleRate: 100
 	};
 
 
@@ -135,10 +137,10 @@ export default class GalleryItem extends PureComponent {
 		this._lastTouches = event.targetTouches;
 
 		const diff = dis1 - dis2;
-		const scale = diff / 1000;
-
+		const scale = diff / this.props.scaleRate;
+		const targetScale = this.state.scale + scale;
 		const state = Object.assign({}, this.state, {
-			scale: this.state.scale + scale,
+			scale: targetScale > 0.1 ? targetScale : 0.1,
 		});
 		this.setState(state);
 	}
@@ -276,22 +278,22 @@ export default class GalleryItem extends PureComponent {
 					);
 				})}
 				{/*
-				<div style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",justifyContent:"center"}}>
-					<button type="button" onClick={()=>{
-						const state=Object.assign({},this.state,{
-							scale:this.state.scale+0.1
-						});
-						this.setState(state);
-					}}>放大
-					</button>
-					<button type="button" onClick={()=>{
-						const state=Object.assign({},this.state,{
-							scale:this.state.scale-0.1
-						});
-						this.setState(state);
-					}}>缩小
-					</button>
-				</div>
+				 <div style={{position:"absolute",bottom:0,left:0,right:0,display:"flex",justifyContent:"center"}}>
+				 <button type="button" onClick={()=>{
+				 const state=Object.assign({},this.state,{
+				 scale:this.state.scale+0.1
+				 });
+				 this.setState(state);
+				 }}>放大
+				 </button>
+				 <button type="button" onClick={()=>{
+				 const state=Object.assign({},this.state,{
+				 scale:this.state.scale-0.1
+				 });
+				 this.setState(state);
+				 }}>缩小
+				 </button>
+				 </div>
 				 */}
 			</div>
 		);

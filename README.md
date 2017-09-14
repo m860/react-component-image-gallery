@@ -28,3 +28,8 @@ $ npm i react-component-image-gallery --save
 ```javascript
 import Gallery from 'react-component-image-gallery'
 ```
+
+## Change Logs
+
+### v1.1.0
+- 添加了缩放速度的控制
