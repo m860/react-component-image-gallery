@@ -11,17 +11,18 @@ import "react-image-gallery/styles/css/image-gallery.css"
  *
  * @example
  *
- *  class GalleryDemo extends Component {
- * 	render() {
- * 		return (
- * 			<Gallery
- * 				showPlayButton={false}
- * 				showNav={false}
- * 				showThumbnails={false}
- * 				showFullscreenButton={false}
- * 				useBrowserFullscreen={false}
- * 				items={[
- * 					{
+ * import Gallery from 'react-component-image-gallery'
+ *
+ * class GalleryDemo extends Component {
+ *     render() {
+ *         return (
+ *             <Gallery
+ * 	               showPlayButton={false}
+ * 				   showNav={false}
+ * 				   showThumbnails={false}
+ * 				   showFullscreenButton={false}
+ * 				   useBrowserFullscreen={false}
+ * 				   items={[{
  * 						original:require('./asset/2.jpg'),
  * 						markers:[
  * 							{
@@ -49,6 +50,10 @@ export default class Gallery extends PureComponent {
 	 * @property {?String} className
 	 * @property {?Number} minScale [1] - 最小缩放
 	 * @property {?Number} maxScale [3] - 最大缩放
+	 * @property {?Object} itemOptions
+	 * @property {?Object} itemOptions.style
+	 * @property {?String} itemOptions.className
+	 * @property {?Number} itemOptions.scaleRate [100] - 缩放比率
 	 * */
 	static propTypes = {
 		style: PropTypes.object,

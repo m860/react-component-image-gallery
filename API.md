@@ -7,7 +7,7 @@
 
 ## Gallery
 
-[src/components/Gallery.js:45-94](https://github.com/m860/react-component-image-gallery/blob/a162d7bdd1a928e35269ce7de4352962f515836a/src/components/Gallery.js#L45-L94 "Source code on GitHub")
+[src/components/Gallery.js:46-99](https://github.com/m860/react-component-image-gallery/blob/b63fdb1bb9104f7490ed3aef3d83a52bab155e0f/src/components/Gallery.js#L46-L99 "Source code on GitHub")
 
 **Extends PureComponent**
 
@@ -22,17 +22,18 @@ Gallery - 画廊,支持缩放,支持marker
 **Examples**
 
 ```javascript
+import Gallery from 'react-component-image-gallery'
+
 class GalleryDemo extends Component {
-	render() {
-		return (
-			<Gallery
-				showPlayButton={false}
-				showNav={false}
-				showThumbnails={false}
-				showFullscreenButton={false}
-				useBrowserFullscreen={false}
-				items={[
-					{
+    render() {
+        return (
+            <Gallery
+	               showPlayButton={false}
+				   showNav={false}
+				   showThumbnails={false}
+				   showFullscreenButton={false}
+				   useBrowserFullscreen={false}
+				   items={[{
 						original:require('./asset/2.jpg'),
 						markers:[
 							{
@@ -56,7 +57,7 @@ class GalleryDemo extends Component {
 
 ### propTypes
 
-[src/components/Gallery.js:53-63](https://github.com/m860/react-component-image-gallery/blob/a162d7bdd1a928e35269ce7de4352962f515836a/src/components/Gallery.js#L53-L63 "Source code on GitHub")
+[src/components/Gallery.js:58-68](https://github.com/m860/react-component-image-gallery/blob/b63fdb1bb9104f7490ed3aef3d83a52bab155e0f/src/components/Gallery.js#L58-L68 "Source code on GitHub")
 
 [...react-image-gallery.props ](https://github.com/xiaolin/react-image-gallery#props)
 
@@ -66,3 +67,7 @@ class GalleryDemo extends Component {
 -   `className` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 -   `minScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** [1] - 最小缩放
 -   `maxScale` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** [3] - 最大缩放
+-   `itemOptions` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
+    -   `itemOptions.style` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)?** 
+    -   `itemOptions.className` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+    -   `itemOptions.scaleRate` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** [100] - 缩放比率
