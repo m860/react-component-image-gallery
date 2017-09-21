@@ -60,7 +60,8 @@ var GalleryItem = function (_PureComponent) {
 			originalSize: {
 				width: 0,
 				height: 0
-			}
+			},
+			canRenderMarkers: false
 		};
 		return _this;
 	}
@@ -243,8 +244,9 @@ var GalleryItem = function (_PureComponent) {
 								var state = Object.assign({}, _this2.state, {
 									width: target.width,
 									height: target.height,
-									counter: _this2.state.counter + 1,
-									initialScale: target.width / _this2.state.originalSize.width
+									//counter:this.state.counter+1,
+									initialScale: target.width / _this2.state.originalSize.width,
+									canRenderMarkers: true
 								});
 								_this2.setState(state);
 							},
@@ -278,7 +280,7 @@ var GalleryItem = function (_PureComponent) {
 							src: _this2.props.item.original });
 					}
 				),
-				markers.map(function (marker, index) {
+				this.state.canRenderMarkers && markers.map(function (marker, index) {
 					var containerWidth = _this2._getContainerWidth();
 					var containerHeight = _this2._getContainerHeight();
 					var imageRealWidth = _this2._getRealWidth();

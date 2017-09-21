@@ -48,7 +48,8 @@ export default class GalleryItem extends PureComponent {
 			originalSize: {
 				width: 0,
 				height: 0
-			}
+			},
+			canRenderMarkers: false
 		};
 	}
 
@@ -209,12 +210,14 @@ export default class GalleryItem extends PureComponent {
 							<img
 								style={{transform:`scale(${scale}) translate(${x}px,${y}px)`,transformOrigin:"center center"}}
 								onLoad={(event)=>{
+									console.log('image loaded')
 									const {target}=event;
 									const state=Object.assign({},this.state,{
 										width:target.width,
 										height:target.height,
-										counter:this.state.counter+1,
-										initialScale:target.width/this.state.originalSize.width
+										//counter:this.state.counter+1,
+										initialScale:target.width/this.state.originalSize.width,
+										canRenderMarkers:true
 									});
 									this.setState(state);
 								}}
@@ -251,7 +254,7 @@ export default class GalleryItem extends PureComponent {
 						);
 					}}
 				</Motion>
-				{markers.map((marker, index)=> {
+				{this.state.canRenderMarkers && markers.map((marker, index)=> {
 					const containerWidth = this._getContainerWidth();
 					const containerHeight = this._getContainerHeight();
 					const imageRealWidth = this._getRealWidth();

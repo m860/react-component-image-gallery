@@ -31,54 +31,38 @@ class GalleryDemo extends Component {
 			<div style={{flex:1,overflow:"hidden",justifyContent:"center",alignItems:"center",display:"flex"}}>
 				<div>
 					<Gallery
-						itemOptions={{
-							style:{
-								width:"375px",
-								height:"667px",
-								display:"table-cell",
-								verticalAlign:"middle"
-							}
-						}}
 						showPlayButton={false}
 						showNav={false}
 						showThumbnails={false}
 						showFullscreenButton={false}
 						useBrowserFullscreen={false}
 						items={[{
-						original:'http://172.16.0.253:13002/ibuild/Original/2017/0727/4fda58cd-8f0b-4e2c-8f51-6688072056bd.png',
-						markers:[
-							{
-								source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/env_monitor@2x.png',
-								style:{width:"20px",height:"20px"},
-								x:651.56,
-								y:722.981,
-								onClick:()=>{
-									alert('click')
+							original:'http://172.16.0.253:13002/ibuild/Original/2017/0727/4fda58cd-8f0b-4e2c-8f51-6688072056bd.png',
+							markers:[
+								{
+									source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/env_monitor@2x.png',
+									style:{width:"20px",height:"20px"},
+									x:651.56,
+									y:722.981,
+									onClick:()=>{
+										alert('click')
+									}
 								}
-							}
-						]
-					},
-					/*{
-						original:'http://172.16.0.253:13002/ibuild/Original/2017/0814/30528e25-0f9f-4527-8a4d-090aeeded7e7.png',
-						markers:[{
-							source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/construction_elevator@2x.png',
-							style:{width:"20px",height:"20px"},
-								x:236.16,
-								y:228,
-								onClick:()=>{
-									alert('click')
-								}
+							]
 						},{
-							source:"http://172.16.0.253:13002/ibuild/sitemap_icon/location/construction_elevator@2x.png",
-							style:{width:"20px",height:"20px"},
-								x:647.04,
-								y:410.4,
-								onClick:()=>{
-									alert('click')
+							original:'http://172.16.0.253:13002/ibuild/Original/2017/0727/4fda58cd-8f0b-4e2c-8f51-6688072056bd.png',
+							markers:[
+								{
+									source:'http://172.16.0.253:13002/ibuild/sitemap_icon/location/env_monitor@2x.png',
+									style:{width:"20px",height:"20px"},
+									x:651.56,
+									y:722.981,
+									onClick:()=>{
+										alert('click')
+									}
 								}
-						}]
-					},*/
-				]}/>
+							]
+						}]}/>
 				</div>
 			</div>
 		);

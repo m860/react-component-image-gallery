@@ -7,7 +7,7 @@
 
 ## Gallery
 
-[src/components/Gallery.js:46-99](https://github.com/m860/react-component-image-gallery/blob/b63fdb1bb9104f7490ed3aef3d83a52bab155e0f/src/components/Gallery.js#L46-L99 "Source code on GitHub")
+[src/components/Gallery.js:46-99](https://github.com/m860/react-component-image-gallery/blob/6c21bd5a558cd48e31214b068df28e72296362c7/src/components/Gallery.js#L46-L99 "Source code on GitHub")
 
 **Extends PureComponent**
 
@@ -57,7 +57,7 @@ class GalleryDemo extends Component {
 
 ### propTypes
 
-[src/components/Gallery.js:58-68](https://github.com/m860/react-component-image-gallery/blob/b63fdb1bb9104f7490ed3aef3d83a52bab155e0f/src/components/Gallery.js#L58-L68 "Source code on GitHub")
+[src/components/Gallery.js:58-68](https://github.com/m860/react-component-image-gallery/blob/6c21bd5a558cd48e31214b068df28e72296362c7/src/components/Gallery.js#L58-L68 "Source code on GitHub")
 
 [...react-image-gallery.props ](https://github.com/xiaolin/react-image-gallery#props)
 
