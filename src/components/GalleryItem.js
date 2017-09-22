@@ -212,11 +212,14 @@ export default class GalleryItem extends PureComponent {
 								onLoad={(event)=>{
 									console.log('image loaded')
 									const {target}=event;
+									const computedStyle=window.getComputedStyle(target);
+									const width=parseFloat(computedStyle.width);
+									const height=parseFloat(computedStyle.height);
 									const state=Object.assign({},this.state,{
-										width:target.width,
-										height:target.height,
+										width:width,
+										height:height,
 										//counter:this.state.counter+1,
-										initialScale:target.width/this.state.originalSize.width,
+										initialScale:width/this.state.originalSize.width,
 										canRenderMarkers:true
 									});
 									this.setState(state);

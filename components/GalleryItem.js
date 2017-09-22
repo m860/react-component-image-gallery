@@ -241,11 +241,14 @@ var GalleryItem = function (_PureComponent) {
 							onLoad: function onLoad(event) {
 								var target = event.target;
 
+								var computedStyle = window.getComputedStyle(target);
+								var width = parseFloat(computedStyle.width);
+								var height = parseFloat(computedStyle.height);
 								var state = Object.assign({}, _this2.state, {
-									width: target.width,
-									height: target.height,
+									width: width,
+									height: height,
 									//counter:this.state.counter+1,
-									initialScale: target.width / _this2.state.originalSize.width,
+									initialScale: width / _this2.state.originalSize.width,
 									canRenderMarkers: true
 								});
 								_this2.setState(state);
